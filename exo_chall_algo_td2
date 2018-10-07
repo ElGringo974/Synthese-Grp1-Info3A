@@ -24,4 +24,19 @@ void appartient_grp_01(int x, int *T1, int s1, int n1) {
 }
 
 void inclus_grp_01(int *T1, int *T2, int n1, int n2, int s1, int s2) {
+	int i, j, compteur1, compteur2;
+	
+	for (i = 0; i < n1; i++) {
+		for (j = 0; j < n2; j++){
+			if (T[i] == T[j]) compteur1++;
+		}	
+	}
+	for (i = 0; i < n2; i++) {
+		for (j = 0; j < n1; j++){
+			if (T[i] == T[j]) compteur2++;
+		}	
+	}
+	if (compteur1 == n1) printf("Le tableau T1 est inclus dans le tableau T2");
+	else if (compteur2 == n2) printf("Le tableau T2 est inclus dans le tableau T1");
+	else printf("Aucun tableau n'est inclus dans l'autre");
 }
