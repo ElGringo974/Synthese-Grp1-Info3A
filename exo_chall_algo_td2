@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+/* Entrée : Tableau d'entiers et sa taille n
+ * Sortie : Affichage du tableau    */
+
+void print(int t[], int n) {
+	int i ;
+
+	for(i=0;i<n;i++) printf("%d",t[i]) ;
+}
+
+void appartient_grp_01(int x, int *T1, int s1, int n1) {
+	int bol , i ;
+
+	bol = 0 ;
+	i = 0 ;
+	while ((bol==0)&&(i<n1)) {
+		if (x==*T1) bol = 1 ;
+		i++ ;
+		*T1++ ;
+	}
+	if ((bol==1)||(i<n)) printf("L'element %d appartient a l'ensemble",x) ;
+	else printf("L'element %d n'appartient pas a l'ensemble",x) ;
+}
+
+void inclus_grp_01(int *T1, int *T2, int n1, int n2, int s1, int s2) {
+}
