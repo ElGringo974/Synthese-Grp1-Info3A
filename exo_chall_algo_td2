@@ -29,11 +29,10 @@ void appartient_grp_01(int x, int *T1, int s1, int n1) {
 void inclus_grp_01(int *T1, int *T2, int n1, int n2, int s1, int s2) {
 	int compteur, i, j, tampon ;
 
-	i = 0 ;
 	compteur = 0 ;
 	if (n1<n2) { 						/* On regarde quel est le tableau le plus petit */
 		tampon = *T2 ; 					/* on sauvegarde l'adresse du premier element du plus grand tableau */
-		while ((bol==1)&&(i<n1)) {
+		for(i=0;i<n1;i++) {
 			*T2 = tampon ;				/* on reinitialise le pointeur au premier element */
 			for(j=0;j<n2;j++) {
 				if (*T1 == *T2) compteur++ ; 
@@ -44,7 +43,7 @@ void inclus_grp_01(int *T1, int *T2, int n1, int n2, int s1, int s2) {
 		}
 	else {
 		tampon = *T1 ; 
-		while ((bol==1)&&(i<n2)) {
+		for(i=0;i<n2;i++) {
 			*T1 = tampon ;	
 			for(j=0;j<n1;j++) {
 				if (*T1 =! *T2) compteur++ ;
