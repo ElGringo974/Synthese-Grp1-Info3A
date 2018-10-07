@@ -48,7 +48,6 @@ int inclus_grp_01(int *T1, int *T2, int n1, int n2) {
 				if (*T1 == *T2) compteur++ ; 	
 				*T2++ ;
 			}
-			i++ ;
 			*T1++ ;
 		}
 	}
@@ -60,7 +59,6 @@ int inclus_grp_01(int *T1, int *T2, int n1, int n2) {
 				if (*T1 == *T2) compteur++ ;
 				*T1++ ;
 			}
-			i++ ;
 			*T2++ ;
 		}
 	}
