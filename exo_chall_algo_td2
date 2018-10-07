@@ -27,6 +27,7 @@ void appartient_grp_01(int x, int *T1, int s1, int n1) {
  *Sortie : savoir si l'un des deux est inclus dans l'autre */
  
 void inclus_grp_01(int *T1, int *T2, int n1, int n2, int s1, int s2) {
+
 	int compteur, i, j, tampon ;
 
 	compteur = 0 ;
