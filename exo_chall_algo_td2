@@ -1,191 +1,156 @@
 #include <stdio.h>
-#define na 2
-#define nb 4
-#define nc 8
-/*@author : Groupe 1 Q1 Info 3A
-/*@brief :
- *Le programme marche mais nous n'avons pas chercher le meilleur tri de
- *tableau pour chaque fonction nous avons préférés utiliser les deux fonctions
- *de la deuxieme question appartient/inclus.
- *Le programme ne peut pas gerer l'entier 0 car celui ci represente une case
- *vide pour un tableau. Il ne faut donc pas utiliser de 0 sinon la fonction
- *d'affichage ne marchera plus correctement !
- *On ne peut pas utiliser la fonction union et inter à la suite car le tableau T3
- *n'est plus vide.*/
 
-void print(int *t, int n)
-{
+/* Entrée : Tableau d'entiers et sa taille n
+ * Sortie : Affichage du tableau    */
+
+void print(int t[], int n) {
 	int i ;
 
-    i = 0 ;
-	while(i<n)
-    {
-        if(t[i]==0) return ;
-        printf("%d ",t[i]) ;
-        i++ ;
-    }
+	for(i=0;i<n;i++) printf("%d ",t[i]) ;
 }
 
-int appartient_grp_01(int x, int *T, int n1)
-{
-	int i ;
+int appartient_grp_01(int x, int *T1, int n1) {
+	int bol , i ;
 
+	bol = 0 ;
 	i = 0 ;
-	while ((x!=T[i])&&(i<n1)) i++ ;
-
-	if (i<n1)
-	{
+	while ((bol==0)&&(i<n1)) {
+		if (x==*T1) bol = 1 ;
+		i++ ;
+		T1++ ;
+	}
+	if ((bol==1)||(i<n1)) {
 		printf("\nL'element %d appartient a l'ensemble",x) ;
 		return 1 ;
 	}
-	else
-	{
+	else {
 		printf("\nL'element %d n'appartient pas a l'ensemble",x) ;
 		return 0 ;
 	}
 }
 
 
+/*Entree : 2 tableau A/B avec le nombre d'element de chaque
+ *Sortie : 1 si A inclue dans B
+ 	   2 si B inclue dans A
+	   0 si aucun des deux   */
 
-int inclus_grp_01(int *T1, int *T2, int n1, int n2)
-{
-	int compteur, i, j;
+int inclus_grp_01(int *T1, int *T2, int n1, int n2) {
+	int compteur, i, j, tampon ;
 
 	compteur = 0 ;
-	if (n1<n2)
-	{
-		for(i=0;i<n1;i++)
-		{
-			for(j=0;j<n2;j++)
-			{
-				if (T1[i] == T2[j]) compteur++ ;
+	if (n1<n2) { 								/* On regarde quel est le tableau le plus petit */
+		tampon = *T2 ; 							/* on sauvegarde l'adresse du premier element du plus grand tableau */
+		for(i=0;i<n1;i++) {
+			*T2 = tampon ;						/* on reinitialise le pointeur au premier element */
+			for(j=0;j<n2;j++) {
+				if (*T1 == *T2) compteur++ ; 	/* condition qui arrete la boucle */
+				*T2++ ;
 			}
+			*T1++ ;
 		}
 	}
-	else
-	{
-		for(i=0;i<n2;i++)
-		{
-			for(j=0;j<n1;j++)
-			{
-				if (T2[i] == T1[j]) compteur++ ;
+	else {
+		tampon = *T1 ;
+		for(i=0;i<n2;i++) {
+			*T1 = tampon ;
+			for(j=0;j<n1;j++) {
+				if (*T1 == *T2) compteur++ ;
+				*T1++ ;
 			}
+			*T2++ ;
 		}
 	}
-	if (compteur == n1)
-	{
+	if (compteur == n1) {
 		printf("\nLe tableau T1 est inclus dans le tableau T2");
 		return 1 ;
 	}
-	else if (compteur == n2)
-	{
+	else if (compteur == n2) {
 		printf("\nLe tableau T2 est inclus dans le tableau T1");
 		return 2 ;
 	}
-	else
-	{
+	else {
 		printf("\nAucun tableau n'est inclus dans l'autre");
 		return 0 ;
 	}
 }
 
 
-void union_gr_01(int T1[], int T2[], int T3[], int n1, int n2, int n3)
-{
-	int i ,j ;
+void union_gr_01(int *T1, int *T2, int *T3, int n1, int n2, int n3) {
+	int i , tampon;
 
-	if(inclus_grp_01(T1,T2,n1,n2) == 1)
-	{
-		printf("\nL'union des deux ensembles est T2 : ") ;
-		print(T2,n2) ;
-		return ;
-	}
-	else if(inclus_grp_01(T1,T2,n1,n2) == 2)
-	{
-		printf("\nL'union des deux ensembles est T1") ;
-		print(T1,n1) ;
-		return ;
-	}
-	else
-	{
-		if(n1<n2)
-		{
-
-			for(i=0;i<n1;i++)
-			{
-			    T3[i] = T1[i] ;
+	if(inclus_grp_01(T1,T2,n1,n2) == 1) printf("\nL'union des deux ensembles est T2") ;
+	else if(inclus_grp_01(T1,T2,n1,n2) == 2) printf("\nL'union des deux ensembles est T1") ;
+	else {
+		if(n1<n2) {
+			tampon = *T1 ;
+			for(i=0;i<n1;i++) {
+			    *T3 = *T1 ;
+				*T1++;
+				*T3++;
 			}
-			for(j=0;j<n2;j++)
-			{
-				if(appartient_grp_01(T2[i],T1,n1)==0) T3[j+n1] = T2[j] ;
+			*T1 = tampon ;
+			for(i=0;i<n2;i++) {
+				if(appartient_grp_01(*T2,T1,n1)==0) *T3 = *T2 ;
+				*T3++ ;
+				*T2++ ;
 			}
 		}
-		else
-		{
-
-			for(i=0;i<n2;i++)
-			{
-			    T3[i] = T2[i] ;
+		else {
+			tampon = *T2 ;
+			for(i=0;i<n2;i++) {
+			    *T3 = *T2 ;
+				*T2++;
+				*T3++;
 			}
-			for(j=0;j<n1;j++)
-			{
-				if(appartient_grp_01(T1[i],T2,n2)==0) T3[i++] = T2[j] ;
+			*T2 = tampon ;
+			for(i=0;i<n1;i++) {
+				if(appartient_grp_01(*T1,T2,n2)==0) *T3 = *T1 ;
+				*T3++ ;
+				*T1++ ;
 			}
 		}
 	}
-	printf("\nL'union des deux ensembles est T3 : ") ;
-	print(T3,n3) ;
 	return ;
 }
 
-void inter_grp_01(int *T1, int *T2, int *T3, int n1, int n2, int n3)
-{
+void inter_grp_01(int *T1, int *T2, int *T3, int n1, int n2, int n3) {
 	int i ;
 
-	if(inclus_grp_01(T1,T2,n1,n2) == 1)
-	{
-		printf("\nL'intersection des deux ensembles est T1 : ") ;
-		print(T1,n1) ;
-		return ;
-	}
-	else if(inclus_grp_01(T1,T2,n1,n2) == 2)
-	{
-		printf("\nL'intersection des deux ensembles est T2 : ") ;
-		print(T2,n2) ;
-		return ;
-	}
-	else
-	{
-		if(n1<n2)
-		{
-			for(i=0;i<n1;i++)
-			{
-				if(appartient_grp_01(T1[i],T2,n2)==1) T3[i] = T1[i] ;
+	if(inclus_grp_01(T1,T2,n1,n2) == 1) printf("\nL'intersection des deux ensembles est T1") ;
+	else if(inclus_grp_01(T1,T2,n1,n2) == 2) printf("\nL'intersection des deux ensembles est T2") ;
+	else {
+		if(n1<n2) {
+			for(i=0;i<n1;i++) {
+				if(appartient_grp_01(*T1,T2,n2)==1) *T3 = *T1 ;
+				*T1++;
+				*T3++;
 			}
 		}
-		else
-		{
-			for(i=0;i<n2;i++)
-			{
-				if(appartient_grp_01(T2[i],T1,n1)==1) T3[i] = T2[i] ;
+		else {
+			for(i=0;i<n2;i++) {
+				if(appartient_grp_01(*T2,T1,n1)==1) *T3 = *T2 ;
+				*T2++;
+				*T3++;
 			}
 		}
 	}
 	printf("\nL'intersection des deux ensembles est : ");
-	print(T3,n3) ;
     return ;
 }
 
-int main()
-{
-	int a[na] = {4,1}, b[nb] = {4,8,7,30}, c[nc]={0} ;
-
+int main() {
+	int na = 2, nb = 3, nc = 5 ;
+	int a[2] = {1,2}, b[3] = {4,8,7}, c[5] ;
+	int *p1 = 0, *p2 = 0 ,*p3 = 0;
+	p1 = &a ;
+	p2 = &b ;
+	p3 = &c ;
 	printf("T1 = ");
 	print(a,na) ;
 	printf("\nT2 = ") ;
 	print(b,nb) ;
-	appartient_grp_01(b[0],a,na) ;
-	inclus_grp_01(a,b,na,nb) ;
-	/*union_gr_01(a,b,c,na,nb,nc) ; */
-	inter_grp_01(a,b,c,na,nb,nc) ;
+	appartient_grp_01(*p2,p1,na) ;   /* fonction marche */
+	inclus_grp_01(p1,p2,na,nb) ;     /* fonction marche */
+	union_gr_01(p1,p2,p3,na,nb,nc) ; /* Ne marche pas car inception de pointeurs */
 }
